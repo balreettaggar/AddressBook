@@ -48,7 +48,17 @@ namespace AddressBookApp.Services
                     contact.City = city;
                 }
             }
-            
+        }
+
+        public void DeleteContact(string firstname, string lastname)
+        {
+            Contact? contact = contacts.FirstOrDefault(c=>c.FirstName==firstname &&c.LastName==lastname);
+            if(contact == null)
+            {
+                Console.WriteLine("Contact not found!");
+                return;
+            }
+            contacts.Remove(contact);
         }
     }
 }

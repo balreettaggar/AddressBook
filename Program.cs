@@ -29,7 +29,9 @@ Console.WriteLine("Enter your first name");
 string firstname = Console.ReadLine();
 Console.WriteLine("Enter your last name");
 string lastname = Console.ReadLine();
-Console.WriteLine("Enter your updated city : ");
-string city = Console.ReadLine();
-ab.EditContact(firstname, lastname, city);
+//Console.WriteLine("Enter your updated city : ");
+//string city = Console.ReadLine();
+//ab.EditContact(firstname, lastname, city);
+
+ab.DeleteContact(firstname, lastname);
 ab.PrintAll();
