@@ -11,7 +11,7 @@ namespace AddressBookApp.Services
 
     public class AddressBook
     {
-        private List<Contact> contacts;
+        public List<Contact> contacts;
 
         public AddressBook()
         {
