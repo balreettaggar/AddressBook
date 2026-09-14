@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AddressBookApp.Model;
+using AddressBookApp.Validation;
 
 namespace AddressBookApp.Services
 {
+
     public class AddressBook
     {
         private List<Contact> contacts;
@@ -37,9 +39,14 @@ namespace AddressBookApp.Services
                 Console.WriteLine("Contact not found");
                 return;
             }
+
             if(!string.IsNullOrEmpty(city))
             {
-                contact.City = city;
+                ContactValidator cv = new ContactValidator();
+                if (cv.IsValidAddressPart(city))
+                {
+                    contact.City = city;
+                }
             }
             
         }
