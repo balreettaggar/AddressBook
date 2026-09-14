@@ -20,7 +20,13 @@ namespace AddressBookApp.Services
 
         public void AddContact(Contact c)
         {
-            contacts.Add(c);
+            bool result = contacts.Any(contact => contact.FirstName == c.FirstName && contact.LastName==c.LastName);
+            if (!result) contacts.Add(c);
+            else
+            {
+                Console.WriteLine($"Contact {c.FirstName} {c.LastName} already exists. Duplicate not added");
+                return;
+            }
         }
 
         public void PrintAll()
