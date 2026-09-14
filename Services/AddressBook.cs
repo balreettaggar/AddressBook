@@ -28,6 +28,20 @@ namespace AddressBookApp.Services
                 Console.WriteLine(c.ToString());
             }
         }
-    }
 
+        public void EditContact(string firstname, string lastname, string city)
+        {
+            Contact? contact = contacts.FirstOrDefault(c => c.FirstName==firstname && c.LastName==lastname);
+            if (contact == null) 
+            {
+                Console.WriteLine("Contact not found");
+                return;
+            }
+            if(!string.IsNullOrEmpty(city))
+            {
+                contact.City = city;
+            }
+            
+        }
+    }
 }
