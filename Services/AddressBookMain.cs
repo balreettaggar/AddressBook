@@ -81,5 +81,14 @@ namespace AddressBookApp.Services
             }
 
         }
+
+        public void SortContactsAlphabetically()
+        {
+            var sortedcontacts = books.SelectMany(b => b.contacts).OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
+            foreach (var entry in sortedcontacts)
+            {
+                Console.WriteLine(entry.ToString());
+            }
+        }
     }
 }
