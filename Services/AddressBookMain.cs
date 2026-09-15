@@ -26,5 +26,15 @@ namespace AddressBookApp.Services
             int count = books.Sum(b => b.contacts.Count);
             return count;
         }
+
+        public void SearchByCity(string city)
+        {
+            var matchedEntries = books.SelectMany(b=>b.contacts).Where(c=>c.City==city).ToList();
+            foreach (var entry in matchedEntries)
+            {
+                Console.WriteLine(entry.ToString());
+            }
+
+        }
     }
 }
