@@ -6,6 +6,7 @@ using AddressBookApp.Validation;
 using AddressBookApp.Exceptions;
 using AddressBookApp.Services;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 Contact contact1 = new Contact("John", "Doe", "12 MG Road", "Pune", "Maharashtra", "411001", "9876543210", "john.doe@mail.com");
 //Console.WriteLine(contact1.ToString());
@@ -82,4 +83,18 @@ abm.AddAddressBook(ab2);
 //abm.ViewCityState();
 //abm.CountCityStates();
 
-abm.SortContactsAlphabetically();
+//abm.SortContactsAlphabetically();
+
+while (true)
+{
+    Console.WriteLine("--Select Any Options--");
+    Console.WriteLine("1. Sort By City");
+    Console.WriteLine("2. Sort by State");
+    Console.WriteLine("3. Sort by Zip");
+
+    int value = Convert.ToInt32(Console.ReadLine());
+    if (value == 1) abm.SortByCity();
+    else if (value == 2) abm.SortByState();
+    else if (value == 3) abm.SortByZip();
+    else break;
+}

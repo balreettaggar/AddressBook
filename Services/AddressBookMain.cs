@@ -90,5 +90,32 @@ namespace AddressBookApp.Services
                 Console.WriteLine(entry.ToString());
             }
         }
+
+        public void SortByCity()
+        {
+            var sortedCities = books.SelectMany(b => b.contacts).OrderBy(c => c.City);
+            foreach(var entry in sortedCities)
+            {
+                Console.WriteLine(entry.ToString());
+            }
+        }
+        public void SortByState()
+        {
+            var sortedStates = books.SelectMany(b => b.contacts).OrderBy(c => c.State);
+            foreach (var entry in sortedStates)
+            {
+                Console.WriteLine(entry.ToString());
+            }
+        }
+
+        public void SortByZip()
+        {
+            var sortedZip = books.SelectMany(b => b.contacts).OrderBy(c => c.Zip);
+            foreach (var entry in sortedZip)
+            {
+                Console.WriteLine(entry.ToString());
+            }
+        }
+
     }
 }
