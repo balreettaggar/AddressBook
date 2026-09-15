@@ -78,4 +78,5 @@ abm.AddAddressBook(ab);
 abm.AddAddressBook(ab1);
 abm.AddAddressBook(ab2);
 
-abm.SearchByCity("Pune");
+//abm.SearchByCity("Pune");
+abm.ViewCityState();

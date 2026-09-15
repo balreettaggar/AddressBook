@@ -36,5 +36,31 @@ namespace AddressBookApp.Services
             }
 
         }
+
+        public void ViewCityState()
+        {
+            var groupedCities = books.SelectMany(b=>b.contacts).GroupBy(c => c.City);
+            Console.WriteLine("--Grouped By Cities--");
+            foreach(var entry in groupedCities)
+            {
+                Console.WriteLine(entry.Key);
+                foreach(var e in entry)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+
+            var groupedStates = books.SelectMany(b=>b.contacts).GroupBy(b=>b.State);
+            Console.WriteLine("--Grouped By States--");
+            foreach(var entry in groupedStates)
+            {
+                Console.WriteLine(entry.Key);
+                foreach(var e in entry)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+
+        }
     }
 }
