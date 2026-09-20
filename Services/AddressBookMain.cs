@@ -1,121 +1,150 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AddressBookApp.Services
 {
     public class AddressBookMain
     {
-        public List<AddressBook> books;
+        public List<AddressBook> books = new List<AddressBook>();
 
-        public AddressBookMain()
+        public void AddAddressBook(AddressBook addressBook)
         {
-            books = new List<AddressBook>();
-        }
-
-        public void AddAddressBook(AddressBook address)
-        {
-            books.Add(address);
+            books.Add(addressBook);
         }
 
         public int CountContacts()
         {
-
-            int count = books.Sum(b => b.contacts.Count);
-            return count;
+            return books.Sum(book => book.Contacts.Count);
         }
 
         public void SearchByCity(string city)
         {
-            var matchedEntries = books.SelectMany(b=>b.contacts).Where(c=>c.City==city).ToList();
+            var matchedEntries = books
+                .SelectMany(book => book.Contacts)
+                .Where(contact => contact.City.Equals(city, StringComparison.OrdinalIgnoreCase));
+
             foreach (var entry in matchedEntries)
             {
                 Console.WriteLine(entry.ToString());
             }
+        }
 
+        public void SearchByState(string state)
+        {
+            var matchedEntries = books
+                .SelectMany(book => book.Contacts)
+                .Where(contact => contact.State.Equals(state, StringComparison.OrdinalIgnoreCase));
+
+            foreach (var entry in matchedEntries)
+            {
+                Console.WriteLine(entry.ToString());
+            }
         }
 
         public void ViewCityState()
         {
-            var groupedCities = books.SelectMany(b=>b.contacts).GroupBy(c => c.City);
+            var contacts = books.SelectMany(book => book.Contacts);
+
+            var groupedCities = contacts.GroupBy(contact => contact.City);
+
             Console.WriteLine("--Grouped By Cities--");
-            foreach(var entry in groupedCities)
+
+            foreach (var group in groupedCities)
             {
-                Console.WriteLine(entry.Key);
-                foreach(var e in entry)
+                Console.WriteLine(group.Key);
+
+                foreach (var contact in group)
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.WriteLine(contact.ToString());
                 }
             }
 
-            var groupedStates = books.SelectMany(b=>b.contacts).GroupBy(b=>b.State);
+            var groupedStates = contacts.GroupBy(contact => contact.State);
+
             Console.WriteLine("--Grouped By States--");
-            foreach(var entry in groupedStates)
+
+            foreach (var group in groupedStates)
             {
-                Console.WriteLine(entry.Key);
-                foreach(var e in entry)
+                Console.WriteLine(group.Key);
+
+                foreach (var contact in group)
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.WriteLine(contact.ToString());
                 }
             }
-
         }
 
         public void CountCityStates()
         {
-            var groupedCities = books.SelectMany(b => b.contacts).GroupBy(c => c.City);
+            var contacts = books.SelectMany(book => book.Contacts);
+
+            var groupedCities = contacts.GroupBy(contact => contact.City);
+
             Console.WriteLine("By City");
-            foreach (var entry in groupedCities)
+
+            foreach (var group in groupedCities)
             {
-                Console.WriteLine(entry.Key + " = " +entry.Count());
-                
+                Console.WriteLine(group.Key + " = " + group.Count());
             }
 
-            var groupedStates = books.SelectMany(b => b.contacts).GroupBy(b => b.State);
+            var groupedStates = contacts.GroupBy(contact => contact.State);
+
             Console.WriteLine("By State");
-            foreach (var entry in groupedStates)
-            {
-                Console.WriteLine(entry.Key + " = " + entry.Count());
-            }
 
+            foreach (var group in groupedStates)
+            {
+                Console.WriteLine(group.Key + " = " + group.Count());
+            }
         }
 
         public void SortContactsAlphabetically()
         {
-            var sortedcontacts = books.SelectMany(b => b.contacts).OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
-            foreach (var entry in sortedcontacts)
+            var sortedContacts = books
+                .SelectMany(book => book.Contacts)
+                .OrderBy(contact => contact.FirstName)
+                .ThenBy(contact => contact.LastName);
+
+            foreach (var contact in sortedContacts)
             {
-                Console.WriteLine(entry.ToString());
+                Console.WriteLine(contact.ToString());
             }
         }
 
         public void SortByCity()
         {
-            var sortedCities = books.SelectMany(b => b.contacts).OrderBy(c => c.City);
-            foreach(var entry in sortedCities)
+            var sortedCities = books
+                .SelectMany(book => book.Contacts)
+                .OrderBy(contact => contact.City);
+
+            foreach (var contact in sortedCities)
             {
-                Console.WriteLine(entry.ToString());
+                Console.WriteLine(contact.ToString());
             }
         }
+
         public void SortByState()
         {
-            var sortedStates = books.SelectMany(b => b.contacts).OrderBy(c => c.State);
-            foreach (var entry in sortedStates)
+            var sortedStates = books
+                .SelectMany(book => book.Contacts)
+                .OrderBy(contact => contact.State);
+
+            foreach (var contact in sortedStates)
             {
-                Console.WriteLine(entry.ToString());
+                Console.WriteLine(contact.ToString());
             }
         }
 
         public void SortByZip()
         {
-            var sortedZip = books.SelectMany(b => b.contacts).OrderBy(c => c.Zip);
-            foreach (var entry in sortedZip)
+            var sortedZip = books
+                .SelectMany(book => book.Contacts)
+                .OrderBy(contact => contact.Zip);
+
+            foreach (var contact in sortedZip)
             {
-                Console.WriteLine(entry.ToString());
+                Console.WriteLine(contact.ToString());
             }
         }
-
     }
 }

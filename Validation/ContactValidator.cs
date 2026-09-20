@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using AddressBookApp.Model;
+﻿using System.Text.RegularExpressions;
 using AddressBookApp.Exceptions;
+using AddressBookApp.Model;
 
 namespace AddressBookApp.Validation
 {
@@ -13,59 +8,83 @@ namespace AddressBookApp.Validation
     {
         public bool IsValidName(string name)
         {
-            string pattern = "^[A-Z][a-z]{2,}$";
-            bool result = Regex.IsMatch(name, pattern);
-            return result;
+            string pattern = "^[A-Z][a-zA-Z]{2,}$";
+            return Regex.IsMatch(name, pattern);
         }
 
-        public bool IsValidAddressPart(string email)
+        public bool IsValidAddressPart(string value)
         {
-            return Regex.IsMatch(email, "^.{4,}");
+            string pattern = "^.{4,}$";
+            return Regex.IsMatch(value, pattern);
         }
 
-        public bool isValidZip(string zip)
+        public bool IsValidZip(string zip)
         {
-            return Regex.IsMatch(zip, "^[0-9]{6}");
+            string pattern = "^[0-9]{6}$";
+            return Regex.IsMatch(zip, pattern);
         }
 
-        public bool isValidPhone(string phone)
+        public bool IsValidPhone(string phone)
         {
-            return Regex.IsMatch(phone, "[0-9]{10}");
+            string pattern = "^[0-9]{10}$";
+            return Regex.IsMatch(phone, pattern);
         }
+
         public bool IsValidEmail(string email)
         {
-            string pattern = "^[A-Za-z0-9._+-%]+@[A-Za-z0-9.-]";
-            return true;
+            string pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            return Regex.IsMatch(email, pattern);
         }
 
-        public void Validate(Contact c)
+        public void Validate(Contact contact)
         {
-            if(!IsValidName(c.FirstName))
+            if (!IsValidName(contact.FirstName))
             {
-                throw new InvalidContactException($"Full name must start with a capital letter and be at least 3 characters");
+                throw new InvalidContactException(
+                    "First name must start with a capital letter and be at least 3 characters.");
             }
 
-            if (!IsValidAddressPart(c.Address))
+            if (!IsValidName(contact.LastName))
             {
-                throw new InvalidContactException($"Address must be atleast 4 characters");
+                throw new InvalidContactException(
+                    "Last name must start with a capital letter and be at least 3 characters.");
             }
 
-            if (!IsValidName(c.Zip))
+            if (!IsValidAddressPart(contact.Address))
             {
-                throw new InvalidContactException($"Zip must be atleast 6 digits");
+                throw new InvalidContactException(
+                    "Address must be at least 4 characters.");
             }
 
-            if (!IsValidName(c.PhoneNumber))
+            if (!IsValidAddressPart(contact.City))
             {
-                throw new InvalidContactException($"Phone Number must be atleast 10 digits");
+                throw new InvalidContactException(
+                    "City must be at least 4 characters.");
             }
 
-            if (!IsValidName(c.Email))
+            if (!IsValidAddressPart(contact.State))
             {
-                throw new InvalidContactException($"Email must contain only uppercases, lowercases, digits, special symbols" +
-                    $"like +, -, _, %, .");
+                throw new InvalidContactException(
+                    "State must be at least 4 characters.");
+            }
+
+            if (!IsValidZip(contact.Zip))
+            {
+                throw new InvalidContactException(
+                    "Zip must contain exactly 6 digits.");
+            }
+
+            if (!IsValidPhone(contact.PhoneNumber))
+            {
+                throw new InvalidContactException(
+                    "Phone number must contain exactly 10 digits.");
+            }
+
+            if (!IsValidEmail(contact.Email))
+            {
+                throw new InvalidContactException(
+                    "Email must be in a valid email format.");
             }
         }
-
     }
 }

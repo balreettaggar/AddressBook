@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AddressBookApp.Exceptions
 {
-    internal class InvalidContactException : Exception
+    public class InvalidContactException : Exception
     {
         public InvalidContactException(string message) : base(message) { }
     }

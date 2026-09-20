@@ -1,70 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AddressBookApp.Model;
 using AddressBookApp.Validation;
 
 namespace AddressBookApp.Services
 {
-
     public class AddressBook
     {
-        public List<Contact> contacts;
+        public List<Contact> contacts = new List<Contact>();
 
-        public AddressBook()
-        {
-            contacts = new List<Contact>();
-        }
+        public IReadOnlyList<Contact> Contacts => contacts;
 
-        public void AddContact(Contact c)
+        public void AddContact(Contact contact)
         {
-            bool result = contacts.Any(contact => contact.FirstName == c.FirstName && contact.LastName==c.LastName);
-            if (!result) contacts.Add(c);
-            else
+            ContactValidator validator = new ContactValidator();
+            validator.Validate(contact);
+
+            bool exists = contacts.Any(c =>
+                c.FirstName == contact.FirstName &&
+                c.LastName == contact.LastName);
+
+            if (exists)
             {
-                Console.WriteLine($"Contact {c.FirstName} {c.LastName} already exists. Duplicate not added");
+                Console.WriteLine($"Contact {contact.FirstName} {contact.LastName} already exists. Duplicate not added.");
                 return;
             }
+
+            contacts.Add(contact);
         }
 
         public void PrintAll()
         {
-            foreach (Contact c in contacts)
+            foreach (Contact contact in contacts)
             {
-                Console.WriteLine(c.ToString());
+                Console.WriteLine(contact.ToString());
             }
         }
 
-        public void EditContact(string firstname, string lastname, string city)
+        public void EditContact(string firstName, string lastName, string city)
         {
-            Contact? contact = contacts.FirstOrDefault(c => c.FirstName==firstname && c.LastName==lastname);
-            if (contact == null) 
+            Contact contact = contacts.FirstOrDefault(c =>
+                c.FirstName == firstName && c.LastName == lastName);
+
+            if (contact == null)
             {
-                Console.WriteLine("Contact not found");
+                Console.WriteLine("Contact not found.");
                 return;
             }
 
-            if(!string.IsNullOrEmpty(city))
+            if (!string.IsNullOrWhiteSpace(city))
             {
-                ContactValidator cv = new ContactValidator();
-                if (cv.IsValidAddressPart(city))
+                ContactValidator validator = new ContactValidator();
+
+                if (validator.IsValidAddressPart(city))
                 {
                     contact.City = city;
+                    Console.WriteLine("Contact updated.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid city.");
                 }
             }
         }
 
-        public void DeleteContact(string firstname, string lastname)
+        public void DeleteContact(string firstName, string lastName)
         {
-            Contact? contact = contacts.FirstOrDefault(c=>c.FirstName==firstname &&c.LastName==lastname);
-            if(contact == null)
+            Contact contact = contacts.FirstOrDefault(c =>
+                c.FirstName == firstName && c.LastName == lastName);
+
+            if (contact == null)
             {
-                Console.WriteLine("Contact not found!");
+                Console.WriteLine("Contact not found.");
                 return;
             }
+
             contacts.Remove(contact);
+            Console.WriteLine("Contact deleted.");
         }
     }
 }
